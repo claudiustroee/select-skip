@@ -1,8 +1,8 @@
-"use client"
+'use client';
 import React, { useState } from 'react';
 import styles from './styles.module.css';
 import Step from '../Step';
-import SkipCard from "../SkipCard";
+import SkipCard from '../SkipCard';
 
 interface Skip {
   id: string;
@@ -17,8 +17,20 @@ interface Skip {
 }
 
 interface HomeClientProps {
-  skips: Skip[];
+  skips: APISkip[];
 }
+
+type APISkip = {
+  id: string;
+  size: number;
+  hire_period_days: number;
+  allowed_on_road: boolean;
+  price_before_vat: number;
+  vat: number;
+  forbidden: boolean;
+  allows_heavy_waste: boolean;
+  transport_cost: number;
+};
 
 const HomeClient: React.FC<HomeClientProps> = ({ skips }) => {
   const [selectedSkipId, setSelectedSkipId] = useState<string | null>(null);
@@ -30,7 +42,7 @@ const HomeClient: React.FC<HomeClientProps> = ({ skips }) => {
       setSelectedSkipId(id);
     }
   };
-  
+
   const steps = [
     {
       text: 'Postcode',
@@ -173,6 +185,18 @@ const HomeClient: React.FC<HomeClientProps> = ({ skips }) => {
     },
   ];
 
+  const formattedSkips: Skip[] = skips.map((skip: APISkip) => ({
+    id: skip.id,
+    size: skip.size,
+    hirePeriod: skip.hire_period_days,
+    onRoad: skip.allowed_on_road,
+    price: skip.price_before_vat,
+    vat: skip.vat,
+    forbidden: skip.forbidden,
+    heavyWaste: skip.allows_heavy_waste,
+    costTransport: skip.transport_cost,
+  }));
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -191,18 +215,18 @@ const HomeClient: React.FC<HomeClientProps> = ({ skips }) => {
         <p className={styles.description}>Hire the skip that best suits you</p>
 
         <div className={styles.skipsContainer}>
-          {skips.map((skip: any) => (
+          {formattedSkips.map((skip) => (
             <SkipCard
               key={skip.id}
               id={skip.id}
               size={skip.size}
-              hirePeriod={skip.hire_period_days}
-              onRoad={skip.allowed_on_road}
-              price={skip.price_before_vat}
+              hirePeriod={skip.hirePeriod}
+              onRoad={skip.onRoad}
+              price={skip.price}
               vat={skip.vat}
               forbidden={skip.forbidden}
-              heavyWaste={skip.allows_heavy_waste}
-              costTransport={skip.transport_cost}
+              heavyWaste={skip.heavyWaste}
+              costTransport={skip.costTransport}
               isSelected={selectedSkipId === skip.id}
               onSelect={handleSelectCard}
             />
@@ -210,14 +234,14 @@ const HomeClient: React.FC<HomeClientProps> = ({ skips }) => {
         </div>
 
         {selectedSkipId && (
-        <div>
-          <h3>Selected Skip:</h3>
-          <p>Skip ID: {selectedSkipId}</p>
-        </div>
-      )}
+          <div>
+            <h3>Selected Skip:</h3>
+            <p>Skip ID: {selectedSkipId}</p>
+          </div>
+        )}
       </main>
     </div>
   );
-}
+};
 
 export default HomeClient;

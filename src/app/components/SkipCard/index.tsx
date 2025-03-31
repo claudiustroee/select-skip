@@ -17,43 +17,21 @@ interface SkipProps {
   onSelect: (id: string) => void;
 }
 
-const skipData: any = {
-  4: {
-    binBags: '30-40 Bin Bags',
-    soilCapacity: '3.75T Soil Pile Capacity',
-  },
-  6: {
-    binBags: '50-60 Bin Bags',
-    soilCapacity: '6T Soil Pile Capacity',
-  },
-  8: {
-    binBags: '60-80 Bin Bags',
-    soilCapacity: '8T Soil Pile Capacity',
-  },
-  10: {
-    binBags: '80-100 Bin Bags',
-    soilCapacity: 'Open Top',
-  },
-  12: {
-    binBags: '100-120 Bin Bags',
-    soilCapacity: 'Open Top',
-  },
-  14: {
-    binBags: '120-140 Bin Bags',
-    soilCapacity: '14T Soil Pile Capacity',
-  },
-  16: {
-    binBags: '140-160 Bin Bags',
-    soilCapacity: '16T Soil Pile Capacity',
-  },
-  20: {
-    binBags: '160-180 Bin Bags',
-    soilCapacity: '20T Soil Pile Capacity',
-  },
-  40: {
-    binBags: '400-440 Bin Bags',
-    soilCapacity: '40T Soil Pile Capacity',
-  },
+interface SkipInfo {
+  binBags: string;
+  soilCapacity: string;
+}
+
+const skipData: Record<number, SkipInfo> = {
+  4: { binBags: '30-40 Bin Bags', soilCapacity: '3.75T Soil Pile Capacity' },
+  6: { binBags: '50-60 Bin Bags', soilCapacity: '6T Soil Pile Capacity' },
+  8: { binBags: '60-80 Bin Bags', soilCapacity: '8T Soil Pile Capacity' },
+  10: { binBags: '80-100 Bin Bags', soilCapacity: 'Open Top' },
+  12: { binBags: '100-120 Bin Bags', soilCapacity: 'Open Top' },
+  14: { binBags: '120-140 Bin Bags', soilCapacity: '14T Soil Pile Capacity' },
+  16: { binBags: '140-160 Bin Bags', soilCapacity: '16T Soil Pile Capacity' },
+  20: { binBags: '160-180 Bin Bags', soilCapacity: '20T Soil Pile Capacity' },
+  40: { binBags: '400-440 Bin Bags', soilCapacity: '40T Soil Pile Capacity' },
 };
 
 const SkipCard = ({

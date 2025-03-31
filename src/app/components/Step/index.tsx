@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './styles.module.css';
 
 type StepProps = {
-  icon: any;
+  icon: React.ReactNode;
   text: string;
   isChecked?: boolean;
   noLine?: boolean;
