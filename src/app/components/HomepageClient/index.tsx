@@ -1,9 +1,11 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles.module.css';
 import Step from '../Step';
 import SkipCard from '../SkipCard';
-
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 interface Skip {
   id: string;
   size: number;
@@ -32,8 +34,71 @@ type APISkip = {
   transport_cost: number;
 };
 
+type SampleArrowProps = {
+  className: string;
+  style: React.CSSProperties;
+  onClick: () => void;
+};
+
+function NextArrow({ className, style, onClick }: SampleArrowProps) {
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", right: "-15px" }}
+      onClick={onClick}
+    />
+  );
+}
+
+function PrevArrow({ className, style, onClick }: SampleArrowProps) {
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", left: "-15px" }}
+      onClick={onClick}
+    />
+  );
+}
+
+const sliderSettings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+  dotsClass: `slick-dots ${styles.dots}`,
+  nextArrow: <NextArrow className="slick-next" style={{}} onClick={() => {}} />,
+  prevArrow: <PrevArrow className="slick-next" style={{}} onClick={() => {}} />,
+};
+
 const HomeClient: React.FC<HomeClientProps> = ({ skips }) => {
   const [selectedSkipId, setSelectedSkipId] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleSelectCard = (id: string) => {
     if (selectedSkipId === id) {
@@ -215,22 +280,43 @@ const HomeClient: React.FC<HomeClientProps> = ({ skips }) => {
         <p className={styles.description}>Hire the skip that best suits you</p>
 
         <div className={styles.skipsContainer}>
-          {formattedSkips.map((skip) => (
-            <SkipCard
-              key={skip.id}
-              id={skip.id}
-              size={skip.size}
-              hirePeriod={skip.hirePeriod}
-              onRoad={skip.onRoad}
-              price={skip.price}
-              vat={skip.vat}
-              forbidden={skip.forbidden}
-              heavyWaste={skip.heavyWaste}
-              costTransport={skip.costTransport}
-              isSelected={selectedSkipId === skip.id}
-              onSelect={handleSelectCard}
-            />
-          ))}
+          {isMobile ? (
+            formattedSkips.map((skip) => (
+              <SkipCard
+                key={skip.id}
+                id={skip.id}
+                size={skip.size}
+                hirePeriod={skip.hirePeriod}
+                onRoad={skip.onRoad}
+                price={skip.price}
+                vat={skip.vat}
+                forbidden={skip.forbidden}
+                heavyWaste={skip.heavyWaste}
+                costTransport={skip.costTransport}
+                isSelected={selectedSkipId === skip.id}
+                onSelect={handleSelectCard}
+              />
+            ))
+          ) : (
+            <Slider {...sliderSettings}>
+              {formattedSkips.map((skip) => (
+                <SkipCard
+                  key={skip.id}
+                  id={skip.id}
+                  size={skip.size}
+                  hirePeriod={skip.hirePeriod}
+                  onRoad={skip.onRoad}
+                  price={skip.price}
+                  vat={skip.vat}
+                  forbidden={skip.forbidden}
+                  heavyWaste={skip.heavyWaste}
+                  costTransport={skip.costTransport}
+                  isSelected={selectedSkipId === skip.id}
+                  onSelect={handleSelectCard}
+                />
+              ))}
+            </Slider>
+          )}
         </div>
 
         {selectedSkipId && (
