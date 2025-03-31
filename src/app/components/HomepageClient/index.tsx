@@ -328,8 +328,8 @@ const HomeClient: React.FC<HomeClientProps> = ({ skips }) => {
             <div className={styles.container}>
               <h2>{selectedSkip.size} Cubic Yards Skip</h2>
               <p className={styles.paragraph}>
-                <span className={styles.price}>£{selectedSkip.price}</span> per{' '}
-                {selectedSkip.hirePeriod} days{' '}
+                <span className={styles.price}>£{selectedSkip.price}</span>{' '}per{' '}
+                {selectedSkip.hirePeriod}{' '}days{' '}
                 {selectedSkip.costTransport ? (
                   <span className={styles.label_transport}>
                     Transport Cost £{selectedSkip.costTransport}
