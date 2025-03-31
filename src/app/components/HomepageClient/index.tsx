@@ -44,7 +44,7 @@ function NextArrow({ className, style, onClick }: SampleArrowProps) {
   return (
     <div
       className={className}
-      style={{ ...style, display: "block", right: "-15px" }}
+      style={{ ...style, display: 'block', right: '-15px' }}
       onClick={onClick}
     />
   );
@@ -54,7 +54,7 @@ function PrevArrow({ className, style, onClick }: SampleArrowProps) {
   return (
     <div
       className={className}
-      style={{ ...style, display: "block", left: "-15px" }}
+      style={{ ...style, display: 'block', left: '-15px' }}
       onClick={onClick}
     />
   );
@@ -83,8 +83,8 @@ const sliderSettings = {
     },
   ],
   dotsClass: `slick-dots ${styles.dots}`,
-  nextArrow: <NextArrow className="slick-next" style={{}} onClick={() => {}} />,
-  prevArrow: <PrevArrow className="slick-next" style={{}} onClick={() => {}} />,
+  nextArrow: <NextArrow className='slick-next' style={{}} onClick={() => {}} />,
+  prevArrow: <PrevArrow className='slick-next' style={{}} onClick={() => {}} />,
 };
 
 const HomeClient: React.FC<HomeClientProps> = ({ skips }) => {
@@ -262,6 +262,10 @@ const HomeClient: React.FC<HomeClientProps> = ({ skips }) => {
     costTransport: skip.transport_cost,
   }));
 
+  const selectedSkip = formattedSkips.find(
+    (skip) => skip.id === selectedSkipId
+  );
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -319,10 +323,26 @@ const HomeClient: React.FC<HomeClientProps> = ({ skips }) => {
           )}
         </div>
 
-        {selectedSkipId && (
-          <div>
-            <h3>Selected Skip:</h3>
-            <p>Skip ID: {selectedSkipId}</p>
+        {selectedSkip && (
+          <div className={styles.stickyBottom}>
+            <div className={styles.container}>
+              <h2>{selectedSkip.size} Cubic Yards Skip</h2>
+              <p className={styles.paragraph}>
+                <span className={styles.price}>£{selectedSkip.price}</span> per{' '}
+                {selectedSkip.hirePeriod} days{' '}
+                {selectedSkip.costTransport ? (
+                  <span className={styles.label_transport}>
+                    Transport Cost £{selectedSkip.costTransport}
+                  </span>
+                ) : (
+                  <span></span>
+                )}
+              </p>
+            </div>
+            <div className={styles.flex}>
+              <button className={styles.selectButton}>Go Back</button>
+              <button className={styles.selectedButton}>Continue</button>
+            </div>
           </div>
         )}
       </main>
