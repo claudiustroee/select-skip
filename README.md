@@ -19,5 +19,5 @@
     -The information is showed more clearly.
     -I feel line the overall user experience is better.
 
-# Not suitable skip
+## Not suitable skip design
 <img width="392" alt="Screenshot 2025-03-31 at 12 28 46" src="https://github.com/user-attachments/assets/f0099e47-73dc-4067-8e4a-1a11e8d55818" />
